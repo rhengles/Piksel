@@ -29,7 +29,7 @@ function Piksel(canvas, options) {
   utils.extend(this, options === null
     ? Piksel.defaultOptions
     : utils.extend(Piksel.defaultOptions, options) );
-  this.initFillHelpers();
+  this._initFillHelpers();
   this.unit = this.cell*this.zoom;
   this.doub = 2*this.unit;
   this.half = parseInt(this.unit/2);
@@ -104,11 +104,13 @@ Piksel.prototype.point3D = function(x, y, z) {
   return new Piksel.point3D(this, x, y, z);
 };
 
-Piksel.prototype.initFillHelpers = function() {
+Piksel.prototype._initFillHelpers = function() {
   var plist = utils.propList(this.fill);
   for ( var n in plist ) {
-    var prop = plist[n];
-    this.fill[prop] = Piksel.fn.setFill(this, this.fill[prop]);
+    var prop = plist[n],
+      color = this.fill[prop];
+    this.fill[prop] = Piksel.fn.setFill(this, color);
+    this.fill[prop].value = color;
   }
 };
 Piksel.prototype.fillTriangleP2D = function(p2d, ltr) {

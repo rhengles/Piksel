@@ -30,7 +30,9 @@
   var p1 = px.point3D(0,0,0),
     p2 = px.point3D(0,0,1);
 
-  px.fillTriangle(p1, 1)
+  px.fillBackground()
+
+    .fillTriangle(p1, 1)
     .fillTriangle(p1, 3)
     .fillTriangle(p1, 5)
 

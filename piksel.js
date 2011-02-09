@@ -46,8 +46,8 @@ Piksel.defaultOptions = {
     yb: '#0000DD',
     za: '#BB0000',
     zb: '#DD0000',
-    oa: '#E0E0E0',
-    ob: '#F0F0F0',
+    oa: '#F0F0F4',
+    ob: '#F8F8FA',
     ha: '#808080',
     hb: '#909090'
   }
@@ -171,4 +171,51 @@ Piksel.prototype.fillBackground = function() {
   }
   this.fill.def();
   return this;
+};
+Piksel.prototype._lineOblique = function(p2d, len, up) {
+  this.ct.fillRect(
+    p2d.x,
+    p2d.y-this.zoom,
+    this.zoom,
+    2*this.zoom
+  );
+  for ( var i = 1; i < len; i++ ) {
+    this.ct.fillRect(
+      p2d.x+(2*i-1)*this.zoom,
+      p2d.y+(up?-i-1:i-1)*this.zoom,
+      2*this.zoom,
+      2*this.zoom
+    );
+  }
+  this.ct.fillRect(
+    p2d.x+(2*len-1)*this.zoom,
+    p2d.y+(up?-len-1:len-1)*this.zoom,
+    this.zoom,
+    2*this.zoom
+  );
+  return this;
+};
+Piksel.prototype.lineXArbitraryP2D = function(p2d, len) {
+  return this._lineOblique(p2d, len, true);
+};
+Piksel.prototype.lineYArbitraryP2D = function(p2d, len) {
+  return this._lineOblique(p2d, len, false);
+};
+Piksel.prototype.lineZArbitraryP2D = function(p2d, len) {
+  this.ct.fillRect(
+    p2d.x-1*this.zoom,
+    p2d.y-(2*len*this.zoom),
+    2*this.zoom,
+    2*len*this.zoom
+  );
+  return this;
+};
+Piksel.prototype.lineX = function(p3d, len) {
+  return this.lineXArbitraryP2D(p3d.to2D(), len*this.cell);
+};
+Piksel.prototype.lineY = function(p3d, len) {
+  return this.lineYArbitraryP2D(p3d.to2D(), len*this.cell);
+};
+Piksel.prototype.lineZ = function(p3d, len) {
+  return this.lineZArbitraryP2D(p3d.to2D(), len*this.cell);
 };

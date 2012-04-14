@@ -1,3 +1,0 @@
-Example:
-
-!http://hengles.net/piksel/example.png!
